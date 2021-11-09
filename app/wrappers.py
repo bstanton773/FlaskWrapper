@@ -15,9 +15,21 @@ class TVMazeAPI:
         title = data['name']
         img = data['image']['original'] if data['image'] else None
         summary = data['summary']
-        network = data['network']['name']
+        network = data['network']['name'] if data['network'] else None
         show = TVShow(show_id, title, img, summary, network)
         return show
+
+    def _create_episode_obj(self, data):
+        episode_id = data['id']
+        name = data['name']
+        season = data['season']
+        number = data['number']
+        airdate = data['airdate']
+        runtime = data['runtime']
+        img = data['image']['original']
+        summary = data['summary']
+        return TVEpisode(episode_id, name, season, number, airdate, runtime, img, summary)
+
         
     def search_shows(self, query):
         url = self.base_url + f'/search/shows?q={query}'
@@ -37,6 +49,14 @@ class TVMazeAPI:
             return show
         return res
 
+    def get_show_episodes(self, show_id):
+        url = self.base_url + f'/shows/{show_id}/episodes'
+        res = self._get(url)
+        if res.status_code == 200:
+            data = res.json()
+            return [self._create_episode_obj(ep) for ep in data]
+        return res
+
 
 class TVShow:
     def __init__(self, show_id, title, img, summary, network):
@@ -52,3 +72,20 @@ class TVShow:
     def __str__(self):
         return f'{self.id} - {self.title}'
     
+
+class TVEpisode:
+    def __init__(self, episode_id, name, season, number, airdate, runtime, img, summary):
+        self.id = episode_id
+        self.name = name
+        self.season = season
+        self.number = number
+        self.airdate = airdate
+        self.runtime = runtime
+        self.image = img
+        self.summary = summary
+
+    def __repr__(self):
+        return f'<Episode | {self.name}>'
+
+    def __str__(self):
+        return f'{self.id} - {self.name}'
