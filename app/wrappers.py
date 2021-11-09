@@ -1,4 +1,5 @@
 import requests
+import arrow
 
 
 class TVMazeAPI:
@@ -24,7 +25,7 @@ class TVMazeAPI:
         name = data['name']
         season = data['season']
         number = data['number']
-        airdate = data['airdate']
+        airdate = arrow.get(data['airdate'])
         runtime = data['runtime']
         img = data['image']['original']
         summary = data['summary']

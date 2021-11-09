@@ -2,7 +2,24 @@
 
 {% block content %}
 
-{{ show }}
-{{ episodes }}
+    <h4>{{ show.title }}</h4>
+
+    {% for ep in episodes %}
+        <div class="card mb-3">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{ ep.image }}" class="img-fluid rounded-start" alt="{{ ep.name }}">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                <h5 class="card-title">{{ ep.name }}</h5>
+                <h6 class="card-title">Season {{ ep.season }} Episode {{ ep.number }}</h6>
+                <p class="card-text">{{ ep.summary|striptags }}</p>
+                <p class="card-text"><small class="text-muted">Airdate: {{ ep.airdate.format('dddd MMMM D, YYYY') }}</small></p>
+                </div>
+            </div>
+            </div>
+        </div>
+    {% endfor %}
 
 {% endblock content %}
