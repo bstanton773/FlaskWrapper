@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>Hello World!!!!!!!</h1>
+<h1>Welcome to the TV Show Episode Finder:</h1>
 
 <form action="" method="post">
     {{ form.csrf_token }}
@@ -24,7 +24,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ show.title }}</h5>
                     <p class="card-text">{{ show.summary|striptags }}</p>
-                    <a href="#" class="btn btn-primary">View Episodes</a>
+                    <a href="{{ url_for('episodes', show_id=show.id) }}" class="btn btn-primary">View Episodes</a>
                 </div>
             </div>
         </div>

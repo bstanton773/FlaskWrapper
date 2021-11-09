@@ -27,7 +27,7 @@ class TVMazeAPI:
         number = data['number']
         airdate = arrow.get(data['airdate'])
         runtime = data['runtime']
-        img = data['image']['original']
+        img = data['image']['original'] if data['image'] else None
         summary = data['summary']
         return TVEpisode(episode_id, name, season, number, airdate, runtime, img, summary)
 
